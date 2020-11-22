@@ -20,7 +20,7 @@ The dataset with data through the 2019 season is located [here](https://www.kagg
 
 # Soccer
 ## General Data
-Generalalized code of that found in MLS_Data to get data for other leagues. 
+Generalized code of that found in MLS_Data to get data for other leagues. 
 * soccer_table.py - script to get table of a specific season of a league from ESPN
 * Soccer Table.ipynb - notebook version of above script, looks a bit nicer
 * Soccer Game Data.ipynb - notebook to get game data from ESPN from a league

@@ -97,7 +97,7 @@ def preprocessGrade2(lines):
         if 'BadgeId:' in line:
             badgeID = True
         if badgeID:
-            if '[ClientGameManager] Shutdown' in line:
+            if '[ClientGlobalGameState] ShutdownNetworkManager' in line:
                 badgeID = False
                 allGood = False
 
@@ -106,6 +106,31 @@ def preprocessGrade2(lines):
     lines = lines2
     #print(len(lines))
     return lines
+
+# changes to the data extraction removed the need for this
+def preprocessGrade3(lines):
+    #print(len(lines))
+    start_conn = -1
+    to_remove = []
+    in_conn = False
+    for i, line in enumerate(lines):
+        if "[StateConnectToGame] We're connected to the server!" in line:
+            start_conn = i
+            in_conn = True
+        if 'reports that it is not yet ready to accept connections.' in line:
+            if in_conn:
+                to_remove.append([start_conn, i])
+                in_conn = False
+    
+    temp_lines = []
+    for i, line in enumerate(lines):
+        for check in to_remove:
+            if i >= check[0] and i <= check[1]:
+                continue
+            temp_lines.append(line)
+            
+    #print(len(temp_lines))
+    return temp_lines
 
 # helper function (to account for if round wraps around midnight)
 def subtractHours(a, b):

@@ -6,21 +6,28 @@ if len(sys.argv) > 2:
     fileName = sys.argv
 else:
     fileName = 'Player.log'
-    
+
 # change these
 HOURS_DIFFERENTIAL = 6 # have to subtract 6
 
 # jump is good, not sure on others
-list_of_finals = ['round_fallmountain', 'round_hex', 'round_royalfumble', 'round_jump_showdown']
+list_of_finals = ['round_fall_mountain', 'round_hex', 'round_royalfumble', 'round_jump_showdown', 'round_fall_mountain_hub_complete']
 
 with open('totalshows.txt') as f:
     total_shows = f.read()
 total_shows = int(total_shows.strip())
 
+with open(os.path.join('data', 'session.txt')) as f:
+    session_num = f.read()
+session_num = int(session_num)
 
 # if data folder doesn't exist, make it
 if not os.path.exists('data'):
     os.makedirs('data')
+
+# if data folder doesn't exist, make it
+if not os.path.exists(os.path.join('data', 'archive')):
+    os.makedirs(os.path.join('data', 'archive'))
     
 with open(os.path.join('C:\\Users','Joseph','AppData','LocalLow','Mediatonic','FallGuys_client',fileName)) as f:
     lines = f.read()
@@ -67,16 +74,15 @@ for i, line in enumerate(lines):
     # signifies start of looking for new episode
     # get size of party
     elif 'Party Size' in line or 'Begin matchmaking solo' in line:
-        gameModes.append(gameMode)
         if 'Begin matchmaking solo' in line:
             partySize = 1
         else:
             partySize = int(line.split(' ')[-1].strip())
     # for show start time
     elif '[QosManager] Registered' in line or 'QosManager: Registered' in line: # for registered time (date)
-        reg.append(line)
+        to_add_reg = line
     elif "[StateConnectToGame] We're connected to the server!" in line: # for connection time
-        conne.append(line)
+        to_add_conne = line
     # for server ID and map lines
     elif 'Received NetworkGameOptions from ' in line: 
         tmp = line.split('roundID=')[-1]
@@ -111,10 +117,16 @@ for i, line in enumerate(lines):
             inARound = False
             actualEndRoundLines.append(line.split(': [')[0])
     # overall show data
-    elif '[CompletedEpisodeDto]' in line: # marker for a good show
+    elif '[CompletedEpisodeDto]' in line: # marker for a good show; only append show stats here
         partySizes.append(partySize)
+        gameModes.append(gameMode)
         episodeMarkers.append(i)
+        reg.append(to_add_reg)
+        conne.append(to_add_conne)
         lookUser = True
+        if inARound:
+            actualEndRoundLines.append('left')
+            inARound = False
 
 # append last # achieving obj
 numLines.append(prevNumLine.split('=')[-1])
@@ -147,6 +159,8 @@ startTimes = getStartTimes(reg, conne)
 # for each show/episode ************************************
 # **********************************************************
 roundIdx = 0
+showsSaved = 0
+showsSkipped = 0
 for showIdx, (j, user) in enumerate(zip(episodeMarkers, usernames)):
     this_show = total_shows
     total_shows += 1
@@ -208,12 +222,20 @@ for showIdx, (j, user) in enumerate(zip(episodeMarkers, usernames)):
     # save show_dict to one table
     # save each dict in rounds_list to another table
     if not saveData(show_dict, rounds_list):
-        # print('already in csvsv')
+        showsSkipped += 1
         total_shows -= 1
     else:
-        pass # print('saved')
+        showsSaved += 1
 
-print('csvs saved successfully')
+print('csvs saved successfully with {} new shows while skipping {} shows that were already saved'.format(showsSaved, showsSkipped))
 
 with open('totalshows.txt', 'w') as f:
     f.write(str(total_shows))
+
+# save processed lines
+with open(os.path.join('data', 'archive', 'session{}.txt'.format(session_num)), 'w') as f:
+    f.write("\n".join(lines))
+session_num += 1
+
+with open(os.path.join('data', 'session.txt'), 'w') as f:
+    f.write(str(session_num))
