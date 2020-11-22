@@ -21,11 +21,14 @@ The dataset with data through the 2019 season is located [here](https://www.kagg
 # Soccer
 ## General Data
 Generalalized code of that found in MLS_Data to get data for other leagues. 
+* soccer_table.py - script to get table of a specific season of a league from ESPN
+* Soccer Table.ipynb - notebook version of above script, looks a bit nicer
+* Soccer Game Data.ipynb - notebook to get game data from ESPN from a league
 
 ## MLS_Data
 Code used to get data for Major League Soccer (MLS). The dataset is located [here](https://www.kaggle.com/josephvm/major-league-soccer-dataset).
 Where the data is coming from can be found near the top of the files. 
-(The tables and player data come from mlssoccer.com and the game data comes from espn.com.)  
+(The player data comes from mlssoccer.com and the game data and tables come from espn.com.)  
 * mls_table.py - script to get table of standings (year is denoted at top of file)
 * mls_player_data.py - script to get player data (year is denoted at top of file and season type is noted at the top of the file (command line argument))
 * mls_game_data.py - not done
