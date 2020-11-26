@@ -66,23 +66,28 @@ def getExtraRoundInfoLines(possLines): # rename?
     rnds = []
     currRnd = possLines[0][1].split()[0]
     currSID = possLines[0][0]
-
+    prevLine = possLines[0][2]
+    
     # get last line before map switches (and server ID)
-    for i, (serverID, line) in enumerate(possLines):
+    for i, (serverID, line, line_num) in enumerate(possLines):
         rnd = line.split()[0]
+        
         if rnd != currRnd: 
             currRnd = rnd
             currSID = serverID
             rnds.append(possLines[i-1][1])
+            if (prevLine + 1) == line_num: # sometimes server changes map due to a dropout
+                rnds.pop()      
         elif serverID != currSID:
             currRnd = rnd
             currSID = serverID
             rnds.append(possLines[i-1][1])
-
-
+            if (prevLine + 1) == line_num:
+                rnds.pop()
+        prevLine = line_num
+    
     rnds.append(possLines[-1][1])      
     return rnds
-
 
 # preprocessGrade1 has been retired
 # remove lines in-between completed games
@@ -129,6 +134,35 @@ def preprocessGrade3(lines):
                 continue
             temp_lines.append(line)
             
+    #print(len(temp_lines))
+    return temp_lines
+
+# remove spectated rounds
+def preprocessGrade4(lines):
+    #print(len(lines))
+    start_round = -1
+    to_remove = []
+    in_spec = False
+    for i, line in enumerate(lines):
+        if "Received instruction that server is ending a round, and to rejoin" in line:
+            start_round = i
+        if 'permission=Spectator' in line:
+            in_spec = True
+        if '[ClientGameManager] Shutdown' in line:
+            if in_spec:
+                to_remove.append([start_round, i])
+                in_spec = False
+                
+    # remove selected lines
+    temp_lines = []
+    for i, line in enumerate(lines):
+        to_append = True
+        for check in to_remove:
+            if i >= check[0] and i <= check[1]:
+                to_append = False
+        if to_append:
+            temp_lines.append(line)
+    
     #print(len(temp_lines))
     return temp_lines
 

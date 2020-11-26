@@ -1,17 +1,21 @@
-import os, datetime, sys
+import os, datetime, sys, time
 import pandas as pd
 from fallGuysFcns import *
 
-if len(sys.argv) > 2:
-    fileName = sys.argv
+if len(sys.argv) >= 2:
+    log_path = sys.argv[1]
 else:
-    fileName = 'Player.log'
+    # get log path from file
+    with open("log_path.txt") as f:
+        log_path = f.read()
 
-# change these
-HOURS_DIFFERENTIAL = 6 # have to subtract 6
+# https://stackoverflow.com/a/10854983
+offset = time.timezone if (time.localtime().tm_isdst == 0) else time.altzone
+tz = offset / 60 / 60 
+HOURS_DIFFERENTIAL = int(tz) # set time zone each time
 
 # jump is good, not sure on others
-list_of_finals = ['round_fall_mountain', 'round_hex', 'round_royalfumble', 'round_jump_showdown', 'round_fall_mountain_hub_complete']
+list_of_finals = ['round_fall_mountain', 'round_floor_fall', 'round_royalfumble', 'round_jump_showdown', 'round_fall_mountain_hub_complete']
 
 with open('totalshows.txt') as f:
     total_shows = f.read()
@@ -20,20 +24,15 @@ total_shows = int(total_shows.strip())
 with open(os.path.join('data', 'session.txt')) as f:
     session_num = f.read()
 session_num = int(session_num)
-
-# if data folder doesn't exist, make it
-if not os.path.exists('data'):
-    os.makedirs('data')
-
-# if data folder doesn't exist, make it
-if not os.path.exists(os.path.join('data', 'archive')):
-    os.makedirs(os.path.join('data', 'archive'))
     
-with open(os.path.join('C:\\Users','Joseph','AppData','LocalLow','Mediatonic','FallGuys_client',fileName)) as f:
+
+
+with open(log_path) as f:
     lines = f.read()
 
 lines = lines.split('\n')
 lines = preprocessGrade2(lines)
+lines = preprocessGrade4(lines)
 
 # get first line of each new show and usernames used for show
 prevUser = '!!!!!!!!!!!!!!!'
@@ -88,7 +87,7 @@ for i, line in enumerate(lines):
         tmp = line.split('roundID=')[-1]
         serverID = line.split(' ')[4]
         if 'Default' not in tmp:
-            possLines.append([serverID, tmp])
+            possLines.append([serverID, tmp, i])
     # for start round times and players that qualified from previous round
     elif 'state from Countdown to Playing' in line:
         startRoundLines.append(line.split(': [')[0])
@@ -161,6 +160,9 @@ startTimes = getStartTimes(reg, conne)
 roundIdx = 0
 showsSaved = 0
 showsSkipped = 0
+
+rnds = getExtraRoundInfoLines(possLines)
+    
 for showIdx, (j, user) in enumerate(zip(episodeMarkers, usernames)):
     this_show = total_shows
     total_shows += 1
@@ -192,8 +194,6 @@ for showIdx, (j, user) in enumerate(zip(episodeMarkers, usernames)):
     # get data for each round in show ************
     # ********************************************
     rounds_list = []
-    rnds = getExtraRoundInfoLines(possLines)
-    
     # for each round in the show/episode
     for round_ in rounds: # for list in 2D list
         round_dict = {'Show ID': this_show, 
