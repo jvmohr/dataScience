@@ -33,12 +33,14 @@ with open(log_path) as f:
 lines = lines.split('\n')
 lines = preprocessGrade2(lines)
 lines = preprocessGrade4(lines)
+lines = preprocessGrade5(lines)
 
 # get first line of each new show and usernames used for show
 prevUser = '!!!!!!!!!!!!!!!'
 lookUser = True
 inRound = False
 inARound = False
+num_players_lock = False
 gameMode = 'main_show'
 
 episodeMarkers = []
@@ -55,7 +57,7 @@ actualEndRoundLines = []
 possLines = []
 gameModes = []
 # to find the actual number of players that qualified (for racing rounds)
-prevNumLine = ""
+prevNumLine = "green"
 numLines = []
 
 # **********************************************************
@@ -93,12 +95,16 @@ for i, line in enumerate(lines):
         startRoundLines.append(line.split(': [')[0])
         inRound = True
         inARound = True
+        num_players_lock = False
         # append last # players achieving obj when hit new round
-        if prevNumLine != "":
+        if prevNumLine != "green":
             numLines.append(prevNumLine.split('=')[-1])
             prevNumLine = ""
+    elif 'Changing state from GameOver to Results' in line:
+        num_players_lock = True
     elif '[ClientGameSession] NumPlayersAchievingObjective=' in line: # for total number of players that quality
-        prevNumLine = line
+        if not num_players_lock:
+            prevNumLine = line
     # for end round / player active in round times
     elif '[ClientGameManager] Handling unspawn for player FallGuy' in line and prevUser in line:
         if inRound:
@@ -129,7 +135,6 @@ for i, line in enumerate(lines):
 
 # append last # achieving obj
 numLines.append(prevNumLine.split('=')[-1])
-
 # if no episodes found, end
 if len(episodeMarkers) == 0:
     print('no episodes found') # change

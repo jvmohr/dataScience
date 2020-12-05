@@ -105,6 +105,7 @@ def preprocessGrade2(lines):
             if '[ClientGlobalGameState] ShutdownNetworkManager' in line:
                 badgeID = False
                 allGood = False
+                lines2.append(line)
 
         if allGood:
             lines2.append(line)
@@ -163,6 +164,39 @@ def preprocessGrade4(lines):
         if to_append:
             temp_lines.append(line)
     
+    #print(len(temp_lines))
+    return temp_lines
+
+# gets rid of shows in which the user got disconnected ()
+def preprocessGrade5(lines):
+    #print(len(lines))
+    
+    start_conn = -1
+    to_remove = []
+    in_conn = False # really just after first show starts
+    end_ep = False
+    
+    for i, line in enumerate(lines):
+        if '[CATAPULT] Login Succeeded' in line:
+            if in_conn and not end_ep:
+                to_remove.append([start_conn, i-1])
+            start_conn = i
+            in_conn = True
+            end_ep = False
+            
+        if '[CompletedEpisodeDto]' in line:
+            end_ep = True
+                
+    # remove selected lines
+    temp_lines = []
+    for i, line in enumerate(lines):
+        to_append = True
+        for check in to_remove:
+            if i >= check[0] and i <= check[1]:
+                to_append = False
+        if to_append:
+            temp_lines.append(line)
+         
     #print(len(temp_lines))
     return temp_lines
 
