@@ -13,7 +13,7 @@ else:
 year = 2020
 if argument == 'post':
     url_insert = str(year) + "&season_type=PS"
-    file_start = 'reg_' + str(year)
+    file_start = 'post_' + str(year)
 else:
     url_insert = str(year)
     file_start = str(year)
