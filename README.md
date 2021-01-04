@@ -41,3 +41,8 @@ Where the data is coming from can be found near the top of the files.
 # TF2
 * TF2 Data.ipynb - gets playtime, stats, and inventory for Team Fortress 2 and saves refined and raw data in json and html files, respectively
 * Steam Total Gametime.ipynb - small notebook to compute total playtime with one of html files saved from previous notebook
+
+# Coins
+* coin_prices.py - script to get spot and the prices of certain coins
+* Graphs.ipynb - notebook that creates graphs of data
+* notes.txt - small txt document that contains certain notes
