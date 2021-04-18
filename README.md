@@ -5,6 +5,7 @@
 * fallGuysFcns.py - helper functions for above script
 * Fall Guys Slim.ipynb - includes code of two .py files, plus some more, in notebook form
 * Fall Guys Development.ipynb - "first draft" of data extraction, includes more output than the others
+No longer updated here. Repo for FallGuysCharts is located [here](https://github.com/jvmohr/FallGuysCharts).
 
 # Futurama
 Code used to get Futurama transcript data as well as one graph. The dataset is located [here](https://www.kaggle.com/josephvm/futurama-seasons-16-transcripts). 
@@ -30,10 +31,11 @@ Code used to get data for Major League Soccer (MLS). The dataset is located [her
 Where the data is coming from can be found near the top of the files. 
 (The player data comes from mlssoccer.com and the game data and tables come from espn.com.)  
 * mls_table.py - script to get table of standings (year is denoted at top of file)
-* mls_player_data.py - script to get player data (year is denoted at top of file and season type is noted at the top of the file (command line argument))
+* mls_player_data.py - script to get player data (year is denoted at top of file and season type is noted at the top of the file (command line argument)) (data source no longer works)
 * mls_game_data.py - not done
-* MLS Table.ipynb - notebook version of mls_table.py
-* MLS Player Data.ipynb - notebook version of mls_player_data.py
+* MLS Table.ipynb - old notebook version of mls_table.py (old data source)
+* All MLS Tables.ipynb - new notebook version of mls_table.py (new data source)
+* MLS Player Data.ipynb - notebook version of mls_player_data.py (data source no longer works)
 * MLS Game Data From ESPN.ipynb - gets game data based on start and stop date codes given 
 * Examples.ipynb - serves as an introduction to the dataset; goes through each csv file and has a short analysis section at the end
 * MLS Analysis - Game Scores.ipynb - notebook that analyzes game scores; can be found on Kaggle [here](https://www.kaggle.com/josephvm/mls-analysis-game-scores)
