@@ -5,6 +5,7 @@
 * fallGuysFcns.py - helper functions for above script
 * Fall Guys Slim.ipynb - includes code of two .py files, plus some more, in notebook form
 * Fall Guys Development.ipynb - "first draft" of data extraction, includes more output than the others
+
 No longer updated here. Repo for FallGuysCharts is located [here](https://github.com/jvmohr/FallGuysCharts).
 
 # Futurama
@@ -43,6 +44,10 @@ Where the data is coming from can be found near the top of the files.
 # TF2
 * TF2 Data.ipynb - gets playtime, stats, and inventory for Team Fortress 2 and saves refined and raw data in json and html files, respectively
 * Steam Total Gametime.ipynb - small notebook to compute total playtime with one of html files saved from previous notebook
+
+# Baseball
+* Located [here](https://github.com/jvmohr/baseballStuff)
+* Mostly code for scraping so far
 
 # Coins
 * coin_prices.py - script to get spot and the prices of certain coins
