@@ -53,9 +53,11 @@ def getMinutes(sp_df):
     return sp_df['msPlayed'].sum() / 1000 / 60 # minutes
 
 def getTopTracks(sp_df):
-    a_df = pd.DataFrame(sp_df['trackName'].value_counts())
-    a_df.columns = ['Plays']
-    return a_df
+    df = sp_df.groupby(['artistName', 'trackName'])['msPlayed'].count().reset_index()
+    df = df.sort_values(by='msPlayed', ascending=False)
+    df.columns = ['Artist', 'Track', 'Plays']
+    df = df[['Track', 'Artist', 'Plays']]
+    return df
 
 def getTopArtists(sp_df):
     a_df = pd.DataFrame(sp_df['artistName'].value_counts())
