@@ -10,6 +10,7 @@ No longer updated here. Repo for FallGuysCharts is located [here](https://github
 
 # Futurama
 Code used to get Futurama transcript data as well as one graph. The dataset is located [here](https://www.kaggle.com/josephvm/futurama-seasons-16-transcripts). 
+* Futurama Sentiment Analyis.ipynb - notebook that contains sentiment analysis of Futurama transcripts; also availabe [here on Kaggle](https://www.kaggle.com/josephvm/futurama-sentiment-analysis)
 * Analysis.ipynb - code that generates one graph (example of using data)
 * Gathering Transcripts.ipynb - code that gets transcripts and episode data from various sources (noted near top of notebook) 
 * Generate CSV.ipynb - code that converts saved txts from above notebook into a csv file
@@ -48,6 +49,7 @@ Where the data is coming from can be found near the top of the files.
 # TF2
 * TF2 Data.ipynb - gets playtime, stats, and inventory for Team Fortress 2 and saves refined and raw data in json and html files, respectively
 * Steam Total Gametime.ipynb - small notebook to compute total playtime with one of html files saved from previous notebook
+* Scrape Player Count.ipynb - notebook to scrape player counts for games on Steam
 
 # Baseball
 * Located [here](https://github.com/jvmohr/baseballStuff)
@@ -57,3 +59,7 @@ Where the data is coming from can be found near the top of the files.
 * coin_prices.py - script to get spot and the prices of certain coins
 * Graphs.ipynb - notebook that creates graphs of data
 * notes.txt - small txt document that contains certain notes
+
+# DBZ/Dokkan
+* Scrape Cards.ipynb - notebook to scrape Dokkan cards from its wiki
+* Beginning Steps with DBZ Dokkan Battle Card Data.ipynb - notebook to show some beginning analysis on card data; also located [here on Kaggle](https://www.kaggle.com/josephvm/beginning-steps-with-dbz-dokkan-battle-card-data)

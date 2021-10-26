@@ -27,7 +27,7 @@ def getSoup(url):
             tm.sleep(2)
     return BeautifulSoup(r.text, "html.parser")
 
-def getAggStats(chosen_league, update=True, end_year=2022):
+def getAggStats(chosen_league, update=True, end_season=2022):
     league = league_data_dict[chosen_league]['Code']
     start_year = league_data_dict[chosen_league]['First Year - Agg Stats']
     folder_name = league_data_dict[chosen_league]['Folder']
@@ -39,14 +39,14 @@ def getAggStats(chosen_league, update=True, end_year=2022):
 
     # Only want to update current season
     if update:
-        start_year = end_year - 1
+        start_year = end_season - 1
 
     all_goals_df = pd.DataFrame()
     all_assists_df = pd.DataFrame()
     all_disc_df = pd.DataFrame()
 
     # For each year
-    for year in range(start_year, end_year):
+    for year in range(start_year, end_season):
         # Scoring
         url = 'https://www.espn.com/soccer/stats/_/league/{}/season/{}'
 
@@ -93,20 +93,20 @@ def getAggStats(chosen_league, update=True, end_year=2022):
     return
 
 # For Table
-def getTable(chosen_league, end_year=2022):
+def getTable(chosen_league, end_season=2022):
     start_year = league_data_dict[chosen_league]['First Year - Table']
     league = league_data_dict[chosen_league]['Code'] # put league or competition here
     folder_name = league_data_dict[chosen_league]['Folder']
 
 
-    file_name = '{}_{}_tables.csv'.format(start_year, end_year-1)
+    file_name = '{}_{}_tables.csv'.format(start_year, end_season-1)
     url = "https://www.espn.com/soccer/standings/_/league/{}/season/{}"
 
     # GP W D L GF GA GD P
     cols = ['Place', 'Team', 'GP', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'P'] # may need to change if other leagues have other cols
     table_df = pd.DataFrame([], columns=cols)
 
-    for year in range(start_year, end_year): # possibly change these
+    for year in range(start_year, end_season): # possibly change these
         r = requests.get(url.format(league, year))
         r.raise_for_status()
         soup = BeautifulSoup(r.text, "html.parser")
@@ -140,7 +140,7 @@ def getTable(chosen_league, end_year=2022):
     return
 
 # For Game Stats
-def getGameData(chosen_league, url_date, stop_date, commentary=True, end_year=2022, verbose=True):
+def getGameData(chosen_league, url_date, stop_date, commentary=True, end_season=2022, verbose=True):
     # url_date and stop_date like "20210130" (yyyymmdd) 
     league = league_data_dict[chosen_league]['Code']
     folder_name = league_data_dict[chosen_league]['Folder']
@@ -447,7 +447,7 @@ def getGameData(chosen_league, url_date, stop_date, commentary=True, end_year=20
     events_df = pd.read_csv(os.path.join('data', folder_name, 'game_stats', str(first_year), str(first_year)+'_events.csv'))
 
     # Read in first one
-    for year in range(first_year+1, end_year):
+    for year in range(first_year+1, end_season):
         # read it in
         m_df = pd.read_csv(os.path.join('data', folder_name, 'game_stats', str(year), str(year)+'_matches.csv'))
         e_df = pd.read_csv(os.path.join('data', folder_name, 'game_stats', str(year), str(year)+'_events.csv'))
