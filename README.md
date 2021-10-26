@@ -23,9 +23,13 @@ The dataset with data through the 2019 season is located [here](https://www.kagg
 # Soccer
 ## General Data
 Generalized code of that found in MLS_Data to get data for other leagues. 
+* Soccer Scraper Driver - notebook used to get data from one league/multiple leagues in one run
+* soccer_fcns.py - functions to scrape table, aggregated stats, and game stats and to combine data
+* league_data_dict.py - contains data for different leagues (should be used as a template for a league if using this code)
 * soccer_table.py - script to get table of a specific season of a league from ESPN
 * Soccer Table.ipynb - notebook version of above script, looks a bit nicer
-* Soccer Game Data.ipynb - notebook to get game data from ESPN from a league
+* Soccer Game Data.ipynb - notebook to get game data from ESPN for a league
+* Soccer Aggregated Stats.ipynb - notebook to get aggregated stats from ESPN for a league
 
 ## MLS_Data
 Code used to get data for Major League Soccer (MLS). The dataset is located [here](https://www.kaggle.com/josephvm/major-league-soccer-dataset).
