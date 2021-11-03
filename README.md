@@ -22,7 +22,7 @@ The dataset with data through the 2019 season is located [here](https://www.kagg
 * kicking.py - helper functions for the notebook
 
 # Soccer
-## General Data
+### General Data
 Generalized code of that found in MLS_Data to get data for other leagues. 
 * Soccer Scraper Driver - notebook used to get data from one league/multiple leagues in one run
 * soccer_fcns.py - functions to scrape table, aggregated stats, and game stats and to combine data
@@ -32,7 +32,7 @@ Generalized code of that found in MLS_Data to get data for other leagues.
 * Soccer Game Data.ipynb - notebook to get game data from ESPN for a league
 * Soccer Aggregated Stats.ipynb - notebook to get aggregated stats from ESPN for a league
 
-## MLS_Data
+### MLS_Data
 Code used to get data for Major League Soccer (MLS). The dataset is located [here](https://www.kaggle.com/josephvm/major-league-soccer-dataset).
 Where the data is coming from can be found near the top of the files. 
 (The player data comes from mlssoccer.com and the game data and tables come from espn.com.)  
@@ -54,6 +54,10 @@ Where the data is coming from can be found near the top of the files.
 # Baseball
 * Located [here](https://github.com/jvmohr/baseballStuff)
 * Mostly code for scraping so far
+
+# Mystery
+### Bigfoot
+* Scrape Bigfoot Data.ipynb - notebook to scrape bigfoot reportings and articles from www.bfro.net
 
 # Coins
 * coin_prices.py - script to get spot and the prices of certain coins
